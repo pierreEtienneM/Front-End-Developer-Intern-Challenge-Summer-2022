@@ -18,7 +18,7 @@
 
 h1 {
   font-size: 30px !important;
-  margin: auto;
+  margin: 10px auto;
   cursor: pointer;
   width: 250px;
 }

@@ -1,32 +1,42 @@
 import { APODItem } from "../types/global";
 
-const API_KEY = process.env.REACT_APP_API_KEY || "3cUAbJsBjlng09J2VJ5YrlF3NB14h5cxYbjmHNRF";
+const API_KEY = process.env.REACT_APP_API_KEY || "";
 const BASE_API_URL = "https://api.nasa.gov/planetary/apod";
+const numberOfDays = 5;
+let startDate = dateFromXDaysAgo(numberOfDays);
+let endDate = dateFromXDaysAgo(0);
 
-function buildSearchQuery(date?: string) {
+function dateFromXDaysAgo(days: number, date?: Date): string {
+  let last_x_days = new Date();
+  if (date) {
+    last_x_days = date;
+  }
+  last_x_days.setDate(last_x_days.getDate() - days);
+  return last_x_days.toISOString().split("T")[0];
+}
+
+function buildSearchQuery(): string {
   const url = new URL(BASE_API_URL);
 
   url.searchParams.set("api_key", API_KEY);
+  url.searchParams.set("thumbs", true.toString());
 
-  if (date) {
-    url.searchParams.set("start_date", date);
-  }
-  else{
-    let last_5_days = new Date();
-    last_5_days.setDate(last_5_days.getDate() - 5);
-    url.searchParams.set("start_date", last_5_days.toISOString().split('T')[0]);
-  }
+  url.searchParams.set("start_date", startDate);
+  url.searchParams.set("end_date", endDate);
+
+  startDate = dateFromXDaysAgo(numberOfDays + 1, new Date(startDate));
+  endDate = dateFromXDaysAgo(numberOfDays + 1, new Date(endDate));
 
   return url.toString();
 }
 
-export async function searchAPOD(date?: string) {
+export async function searchAPOD(): Promise<APODItem[]> {
   try {
-    const res = await fetch(buildSearchQuery(date));
+    const res = await fetch(buildSearchQuery());
 
     if (res.ok) {
       const result = await res.json();
-      return result as APODItem[];
+      return result.reverse() as APODItem[];
     } else {
       throw new Error(`Error - Status: ${res.status}: ${res.statusText}`);
     }
@@ -34,7 +44,7 @@ export async function searchAPOD(date?: string) {
     console.error(error);
 
     throw new Error(
-     'Something went wrong while fetching the APOD data. Please try again later.'
+      "Something went wrong while fetching the APOD data. Please try again later."
     );
   }
 }

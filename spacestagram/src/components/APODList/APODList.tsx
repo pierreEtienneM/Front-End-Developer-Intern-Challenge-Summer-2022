@@ -13,7 +13,7 @@ const APODList: React.FC<IProps> = ({ apodItems }) => {
           return <APODCard key={item.title} apodItem={item} />;
         })
       ) : (
-        <p>No Image</p>
+        <p>No image available at the moment</p>
       )}
     </div>
   );

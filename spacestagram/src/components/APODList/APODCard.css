@@ -1,18 +1,13 @@
 .Card-Container {
-    max-width: 650px;
-    margin-bottom: 25px;
-    background-color: #242526 !important;
+  max-width: 650px;
+  margin-bottom: 25px;
 }
 
 .Polaris-Card {
-    background-color: #18191b !important;
-}
-
-.Polaris-MediaCard {
-    display: block;
+  background-color: #18191b !important;
 }
 
 .Polaris-Card__Section {
-    padding: 10px;
-    margin-bottom: 15px;
+  padding: 10px;
+  margin-bottom: 15px;
 }

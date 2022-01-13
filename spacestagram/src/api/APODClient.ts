@@ -1,4 +1,5 @@
 import { APODItem } from "../types/global";
+import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_KEY || "";
 const BASE_API_URL = "https://api.nasa.gov/planetary/apod";
@@ -32,17 +33,10 @@ function buildSearchQuery(): string {
 
 export async function searchAPOD(): Promise<APODItem[]> {
   try {
-    const res = await fetch(buildSearchQuery());
-
-    if (res.ok) {
-      const result = await res.json();
-      return result.reverse() as APODItem[];
-    } else {
-      throw new Error(`Error - Status: ${res.status}: ${res.statusText}`);
-    }
+    const url = buildSearchQuery();
+    const res = await axios.get(url);
+    return res.data.reverse() as APODItem[];
   } catch (error) {
-    console.error(error);
-
     throw new Error(
       "Something went wrong while fetching the APOD data. Please try again later."
     );

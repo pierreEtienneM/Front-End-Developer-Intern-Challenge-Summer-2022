@@ -12,13 +12,14 @@
   padding: 15px 0px;
   width: 100%;
   top: 0;
-  position:sticky;
+  position: sticky;
   z-index: 1;
 }
 
 h1 {
   font-size: 30px !important;
   margin: 0.5em 0;
+  cursor: pointer;
 }
 
 .App-body {

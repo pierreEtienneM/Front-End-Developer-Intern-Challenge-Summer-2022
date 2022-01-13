@@ -3,27 +3,35 @@ import "./APODCard.css";
 import { MediaCard, VideoThumbnail } from "@shopify/polaris";
 import { APODItem } from "../../types/global";
 
-interface IProps {
-  apodItem: APODItem;
-}
-
-const APODCard: React.FC<IProps> = ({ apodItem }) => {
+const APODCard: React.FC<APODItem> = ({
+  title,
+  date,
+  explanation,
+  hdurl,
+  media_type,
+  thumbnail_url,
+  url,
+}) => {
   const openVideoInNewTab = (url?: string): void => {
     window.open(url, "_blank");
   };
 
   const [like, setLike] = useState<boolean>(
-    window.localStorage.getItem("like") === "true"
+    window.localStorage.getItem(title + "_like") === "true"
   );
+
+  const copyToClipboard = (url?: string): void => {
+    navigator.clipboard.writeText(url!);
+  }
 
   const handleLike = (): void => {
     setLike(!like);
-    window.localStorage.setItem("like", `${!like}`);
+    window.localStorage.setItem(title + "_like", `${!like}`);
   };
   return (
     <div className="Card-Container">
       <MediaCard
-        title={apodItem.title + " (" + apodItem.date + ")"}
+        title={title + " (" + date + ")"}
         portrait={true}
         primaryAction={{
           content: like ? "Liked" : "Like",
@@ -31,18 +39,22 @@ const APODCard: React.FC<IProps> = ({ apodItem }) => {
             handleLike();
           },
         }}
-        description={apodItem.explanation}
+        secondaryAction={{
+          content: "Copy",
+          onAction: () => {
+            copyToClipboard(hdurl ? hdurl : url);
+          },
+        }}
+        description={explanation}
       >
-        {apodItem.media_type === "image" ? (
-          <img width="100%" alt={apodItem.title} src={apodItem.hdurl} />
+        {media_type === "image" ? (
+          <img width="100%" alt={title} src={hdurl} />
         ) : (
           <VideoThumbnail
             thumbnailUrl={
-              apodItem.thumbnail_url
-                ? apodItem.thumbnail_url
-                : "https://img.youtube.com/vi/"
+              thumbnail_url ? thumbnail_url : "https://img.youtube.com/vi/"
             }
-            onClick={() => openVideoInNewTab(apodItem.url)}
+            onClick={() => openVideoInNewTab(url)}
           />
         )}
       </MediaCard>

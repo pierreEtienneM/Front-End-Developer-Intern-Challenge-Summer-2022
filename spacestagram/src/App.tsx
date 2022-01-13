@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Spinner } from "@shopify/polaris";
 import { searchAPOD } from "./api/APODClient";
 import "@shopify/polaris/build/esm/styles.css";
@@ -11,19 +11,27 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setLoading(true);
     fetchData();
     window.addEventListener("scroll", loadMore);
   }, []);
 
+  const loadingRef = useRef(loading);
+  const _setLoading = (value: boolean) => {
+    loadingRef.current = value;
+    setLoading(value);
+  };
+
   const fetchData = async (): Promise<void> => {
-    try {
-      const result = await searchAPOD();
-      setAPODItems(APODItems => APODItems?.concat(result));
-    } catch (error) {
-      console.log(error);
+    if (!loadingRef.current) {
+      _setLoading(true);
+      try {
+        const result = await searchAPOD();
+        setAPODItems((APODItems) => APODItems?.concat(result));
+      } catch (error) {
+        console.log(error);
+      }
+      _setLoading(false);
     }
-    setLoading(false);
   };
 
   const loadMore = (): void => {
@@ -36,19 +44,20 @@ function App() {
     }
   };
 
+  const ScrollTop = (): void => {
+    window.scroll(0, 0);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🚀 Spacestagram</h1>
+        <h1 onClick={() => ScrollTop()}>🚀 Spacestagram</h1>
         <p>Thanks to NASA's image API</p>
       </header>
 
       <div className="App-body">
-        {loading ? (
-          <Spinner accessibilityLabel="Loading" size="large" />
-        ) : (
-          <APODList apodItems={APODItems} />
-        )}
+        {APODItems && <APODList apodItems={APODItems} />}
+        {loading && <Spinner />}
       </div>
     </div>
   );

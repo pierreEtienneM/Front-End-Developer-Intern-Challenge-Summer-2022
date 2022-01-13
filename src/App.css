@@ -18,8 +18,9 @@
 
 h1 {
   font-size: 30px !important;
-  margin: 0.5em 0;
+  margin: auto;
   cursor: pointer;
+  width: 250px;
 }
 
 .App-body {

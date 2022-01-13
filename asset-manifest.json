@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Front-End-Developer-Intern-Challenge-Summer-2022/static/css/main.3f334e4d.css",
+    "main.js": "/Front-End-Developer-Intern-Challenge-Summer-2022/static/js/main.6389b6a1.js",
+    "static/js/787.fa78698e.chunk.js": "/Front-End-Developer-Intern-Challenge-Summer-2022/static/js/787.fa78698e.chunk.js",
+    "index.html": "/Front-End-Developer-Intern-Challenge-Summer-2022/index.html",
+    "main.3f334e4d.css.map": "/Front-End-Developer-Intern-Challenge-Summer-2022/static/css/main.3f334e4d.css.map",
+    "main.6389b6a1.js.map": "/Front-End-Developer-Intern-Challenge-Summer-2022/static/js/main.6389b6a1.js.map",
+    "787.fa78698e.chunk.js.map": "/Front-End-Developer-Intern-Challenge-Summer-2022/static/js/787.fa78698e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3f334e4d.css",
+    "static/js/main.6389b6a1.js"
+  ]
+}
